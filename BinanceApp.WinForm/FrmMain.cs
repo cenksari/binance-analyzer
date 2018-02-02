@@ -2,7 +2,6 @@
 {
 	using Models;
 	using Newtonsoft.Json.Linq;
-	using RestSharp;
 	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
@@ -51,38 +50,49 @@
 			}
 			else
 			{
-				string endpoint = "api/v1/ticker/allPrices";
+				ApiCaller apiCaller = new ApiCaller();
 
-				Api api = new Api();
-
-				string serverResponse = await api.GetApiEndpoint(endpoint, string.Empty, Method.GET);
-
-
-				List<Price> prices = new List<Price>();
-
-				JArray pricesJson = JArray.Parse(serverResponse);
-
-				foreach (var item in pricesJson.Children())
+				RestRequest request = new RestRequest
 				{
-					prices.Add
-					(
-						new Price
-						{
-							symbol = item["symbol"].ToString(),
-							price = Convert.ToDecimal(item["price"])
-						}
-					);
-				}
+					Method = "GET",
+					Endpoint = "api/v1/ticker/allPrices",
+					Parameters = null
+				};
 
-				foreach (Price item in prices)
+				RestResponse response = await apiCaller.GetEndpoint(request);
+
+				if (response.Status)
 				{
-					if (item.symbol.Substring(item.symbol.Length - 3, 3) == "BTC")
+					List<Price> prices = new List<Price>();
+
+					JArray pricesJson = JArray.Parse(response.Response);
+
+					foreach (var item in pricesJson.Children())
 					{
-						await Tools.AddLatestPrice(settings.connectionString, item.symbol, item.price);
+						prices.Add
+						(
+							new Price
+							{
+								symbol = item["symbol"].ToString(),
+								price = Convert.ToDecimal(item["price"])
+							}
+						);
 					}
-				}
 
-				SetText($"{DateTime.Now} - Fiyatlar alındı ve kaydedildi.");
+					foreach (Price item in prices)
+					{
+						if (item.symbol.Substring(item.symbol.Length - 3, 3) == "BTC")
+						{
+							await Tools.AddLatestPrice(settings.connectionString, item.symbol, item.price);
+						}
+					}
+
+					SetText($"{DateTime.Now} - Fiyatlar alındı ve kaydedildi.");
+				}
+				else
+				{
+					SetText($"{DateTime.Now} - Binance API cevap vermiyor. Lütfen tekrar deneyiniz.");
+				}
 			}
 		}
 
