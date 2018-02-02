@@ -1,0 +1,11 @@
+﻿{
+	"version": "1.0",
+	"apiKey": "your binance api key",
+	"apiSecret": "your binance api secret",
+	"dbAddress": "SQLSERVERINSTANCENAME",
+	"dbName": "binance",
+	"dbUsername": "dbusername",
+	"dbPassword": "dbpassword",
+	"interval": 2,
+	"symbol": "ETHBTC,TRXBTC,IOTABTC,XRPBTC"
+}

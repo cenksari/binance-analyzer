@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinanceApp.WinForm", "BinanceApp.WinForm\BinanceApp.WinForm.csproj", "{DD3D69F3-3152-492C-A6F5-031FD5413057}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD3D69F3-3152-492C-A6F5-031FD5413057}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3D69F3-3152-492C-A6F5-031FD5413057}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD3D69F3-3152-492C-A6F5-031FD5413057}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD3D69F3-3152-492C-A6F5-031FD5413057}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {060795EC-C5E5-4125-9BFA-DB8B459D73BD}
+	EndGlobalSection
+EndGlobal
