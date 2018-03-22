@@ -1,11 +1,11 @@
 ﻿{
 	"version": "1.0",
-	"apiKey": "7mVKzyLzUVaO2ke5puUVdo9jHyreMBVwk81TxYYpyKkLCzjjCCCoPbDghWKZE0Ca",
-	"apiSecret": "ixm6j2jI0YACrQlIrZX64FrQCaoLynYv07ZleopdUlKAkCEhwL9kRFxiVpG1edKL",
-	"dbAddress": "CENKSARI",
+	"apiKey": "your binance api key",
+	"apiSecret": "your binance api secret",
+	"dbAddress": "SQLSERVERINSTANCENAME",
 	"dbName": "binance",
-	"dbUsername": "sa",
-	"dbPassword": "fataltragedy",
+	"dbUsername": "dbusername",
+	"dbPassword": "dbpassword",
 	"interval": 2,
 	"symbol": "ETHBTC,TRXBTC,IOTABTC,XRPBTC"
 }
