@@ -20,7 +20,7 @@
 		public string dbUsername { get; set; }
 		public string dbPassword { get; set; }
 
-		private string configurationFile = Path.Combine(Application.StartupPath, "settings.json");
+		private readonly string configurationFile = Path.Combine(Application.StartupPath, "settings.json");
 
 		public Settings()
 		{

@@ -8,9 +8,9 @@
 
 	class ApiCaller
 	{
-		private string ApiAddress = "https://api.binance.com";
+		private readonly string ApiAddress = "https://api.binance.com";
 		private string ApiKey = string.Empty;
-		private string ApiSecret = string.Empty; 
+		private string ApiSecret = string.Empty;
 
 		public ApiCaller()
 		{

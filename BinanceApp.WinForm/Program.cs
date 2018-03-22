@@ -13,9 +13,7 @@
 		static void Main()
 		{
 			if (!ApplicationControl.Runnable("Binance"))
-			{
 				return;
-			}
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

@@ -4,6 +4,7 @@
 	using Newtonsoft.Json.Linq;
 	using System;
 	using System.Collections.Generic;
+	using System.Text;
 	using System.Threading.Tasks;
 	using System.Windows.Forms;
 
@@ -34,20 +35,18 @@
 			timer.Tick += new EventHandler(Timer_Tick);
 			timer.Start();
 
-			var t = Task.Factory.StartNew(() => GetLatestPrices());
+			Task.Factory.StartNew(() => GetLatestPrices());
 		}
 
 		private void Timer_Tick(Object o, EventArgs e)
 		{
-			var t = Task.Factory.StartNew(() => GetLatestPrices());
+			Task.Factory.StartNew(() => GetLatestPrices());
 		}
 
 		private async Task GetLatestPrices()
 		{
 			if (string.IsNullOrEmpty(settings.apiKey) && string.IsNullOrEmpty(settings.apiSecret))
-			{
 				SetText("Lütfen Binance apiKey ve apiSecret parametrelerini giriniz.");
-			}
 			else
 			{
 				ApiCaller apiCaller = new ApiCaller();
@@ -82,17 +81,13 @@
 					foreach (Price item in prices)
 					{
 						if (item.symbol.Substring(item.symbol.Length - 3, 3) == "BTC")
-						{
 							await Tools.AddLatestPrice(settings.connectionString, item.symbol, item.price);
-						}
 					}
 
 					SetText($"{DateTime.Now} - Fiyatlar alındı ve kaydedildi.");
 				}
 				else
-				{
 					SetText($"{DateTime.Now} - Binance API cevap vermiyor. Lütfen tekrar deneyiniz.");
-				}
 			}
 		}
 
@@ -101,9 +96,7 @@
 			string symbol = TxtSymbol.Text.Trim();
 
 			if (string.IsNullOrEmpty(symbol))
-			{
 				SetText("Lütfen hesaplanacak sembolü giriniz.");
-			}
 			else
 			{
 				symbol = TxtSymbol.Text.Replace(" ", string.Empty).Trim();
@@ -113,40 +106,44 @@
 				List<Change> changes = await Tools.GetLatestPrices(settings.connectionString, symbol);
 
 				if (changes == null)
-				{
 					SetText("Seçtiğiniz sembol için bir veri bulunamadı ya da değişim kurları veritabanı boş.");
-				}
 				else
 				{
 					List<ChangeRate> changeRates = await Logic.Analyze(changes, symbol);
 
 					if (changeRates == null)
-					{
 						SetText("Analiz yapılamadı.");
-					}
 					else
 					{
-						string Text = "";
+						StringBuilder text = null;
 
 						foreach (ChangeRate item in changeRates)
 						{
-							Text = $"{item.symbol} için fiyat değişimi hesaplandı :" + Environment.NewLine;
-							Text += $"İlk fiyat : {item.firstPrice}" + Environment.NewLine;
-							Text += $"Son fiyat : {item.lastPrice}" + Environment.NewLine;
-							Text += $"Değişim oranı : {item.changeRate}" + Environment.NewLine;
-							Text += $"Değişen fiyat : {item.priceChange}" + Environment.NewLine;
-							Text += $"İlk bakılan tarih : {item.firstDate}" + Environment.NewLine;
-							Text += $"Son bakılan tarih : {item.lastDate}";
+							text = new StringBuilder();
 
-							SetText(Text);
+							text.AppendFormat("{0} için fiyat değişimi hesaplandı", item.symbol);
+							text.AppendLine("");
+							text.AppendFormat("İlk fiyat : {0}", item.firstPrice.ToString());
+							text.AppendLine("");
+							text.AppendFormat("Son fiyat : {0}", item.lastPrice.ToString());
+							text.AppendLine("");
+							text.AppendFormat("Değişim oranı : {0}", item.changeRate);
+							text.AppendLine("");
+							text.AppendFormat("Değişen fiyat : {0}", item.priceChange.ToString());
+							text.AppendLine("");
+							text.AppendFormat("İlk bakılan tarih : {0}", item.firstDate.ToString());
+							text.AppendLine("");
+							text.AppendFormat("Son bakılan tarih: {0}", item.lastDate.ToString());
+
+							SetText(text.ToString());
 						}
 					}
 				}
 			}
 		}
 
-
 		delegate void SetTextCallback(string text);
+
 		private void SetText(string text)
 		{
 			if (TxtLog.InvokeRequired)
@@ -175,7 +172,7 @@
 
 		private void MnuGetPrices_Click(object sender, EventArgs e)
 		{
-			var t = Task.Factory.StartNew(() => GetLatestPrices());
+			Task.Factory.StartNew(() => GetLatestPrices());
 		}
 
 		private void MnuAnalyze_Click(object sender, EventArgs e)

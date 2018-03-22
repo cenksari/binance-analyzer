@@ -12,8 +12,6 @@
 	{
 		public static async Task AddLatestPrice(string connectionString, string symbol, decimal price)
 		{
-			DateTime currentDate = DateTime.Now;
-
 			try
 			{
 				using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -25,17 +23,15 @@
 						sqlCommand.Parameters.AddWithValue("price", price);
 
 						if (sqlConnection.State == ConnectionState.Closed || sqlConnection.State == ConnectionState.Broken)
-						{
 							await sqlConnection.OpenAsync();
-						}
 
 						await sqlCommand.ExecuteNonQueryAsync();
 					}
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
-				throw new Exception(ex.Message);
+				throw new OperationCanceledException(ex.Message);
 			}
 		}
 
@@ -56,9 +52,7 @@
 						sqlCommand.Parameters.AddWithValue("topn", (symbols.Count() * 5));
 
 						if (sqlConnection.State == ConnectionState.Closed || sqlConnection.State == ConnectionState.Broken)
-						{
 							await sqlConnection.OpenAsync();
-						}
 
 						using (SqlDataReader dr = await sqlCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection))
 						{
@@ -85,7 +79,7 @@
 			}
 			catch (Exception ex)
 			{
-				throw new Exception(ex.Message);
+				throw new OperationCanceledException(ex.Message);
 			}
 
 			return returnedValue;
